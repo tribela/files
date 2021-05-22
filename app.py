@@ -1,6 +1,7 @@
 import os
 import tempfile
 
+import markdown
 from flask import Flask, render_template, request, send_from_directory, url_for
 
 app = Flask(__name__)
@@ -18,9 +19,33 @@ def setup():
     app.config['UPLOAD_DIR'] = uploaddir
 
 
+def is_cli():
+    ua = request.headers.get('User-Agent', '')
+
+    cli_ua = {
+        'curl',
+        'HTTPie'
+    }
+
+    return any(
+        ua.startswith(x + '/')
+        for x in cli_ua
+    )
+
+
 @app.get('/')
 def index():
-    return render_template('index.html')
+    url = url_for(upload_file.__name__, fname='hello.txt', _external=True)
+
+    with open('usage.md') as f:
+        md = f.read().replace('__url__', url)
+
+    if is_cli():
+        return md
+
+    usage = markdown.markdown(md)
+
+    return render_template('index.html', usage=usage)
 
 
 @app.post('/<fname>')

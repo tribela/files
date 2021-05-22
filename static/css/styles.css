@@ -10,4 +10,5 @@ body > main {
     border-radius: 3px;
     border: 1px solid #decaff;
     padding: 1em;
+    box-sizing: border-box;
 }
