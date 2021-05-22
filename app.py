@@ -3,8 +3,11 @@ import tempfile
 
 import markdown
 from flask import Flask, render_template, request, send_from_directory, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
+
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
 
 
 @app.before_first_request
