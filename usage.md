@@ -12,7 +12,7 @@ curl -F file=@hello.txt __url__
 curl -O hello.txt __url__
 ```
 
-## To upload file
+## To delete file
 
 ```sh
 curl -X DELETE __url__
