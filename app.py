@@ -2,7 +2,7 @@ import os
 import tempfile
 
 import markdown
-from flask import Flask, render_template, request, send_from_directory, url_for
+from flask import Flask, Response, render_template, request, send_from_directory, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
@@ -44,7 +44,7 @@ def index():
         md = f.read().replace('__url__', url)
 
     if is_cli():
-        return md
+        return Response(md, mimetype='text/markdown')
 
     usage = markdown.markdown(md)
 
