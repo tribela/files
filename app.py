@@ -51,7 +51,7 @@ def index():
     return render_template('index.html', usage=usage)
 
 
-@app.post('/<fname>')
+@app.route('/<fname>', methods=['PUT', 'POST'])
 def upload_file(fname):
     if 'file' not in request.files:
         return "File is required", 400
