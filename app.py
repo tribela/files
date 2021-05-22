@@ -59,7 +59,7 @@ def upload_file(fname):
     file = request.files['file']
     file.save(os.path.join(app.config['UPLOAD_DIR'], fname))
 
-    return url_for(get_file.__name__, fname=fname, _external=True)
+    return url_for(get_file.__name__, fname=fname, _external=True), 201
 
 
 @app.get('/<fname>')
