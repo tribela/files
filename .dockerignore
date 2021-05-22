@@ -1,0 +1,10 @@
+.git
+.gitignore
+
+__pycache__
+.flake8
+
+Dockerfile
+.dockerignore
+
+.envrc
