@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple files hosting</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+  <main>
+    <h1>Simple static file hosting for curl</h1>
+    <h2>To upload file:</h2>
+    <pre><code>curl -F file=@hello.txt {{ url_for('upload_file', fname='hello.txt', _external=True) }}</code></pre>
+
+    <h2>To download file:</h2>
+    <pre><code>curl -O hello.txt {{ url_for('get_file', fname='hello.txt', _external=True) }}</code></pre>
+
+    <h2>To delete file:</h2>
+    <pre><code>curl -X DELETE {{ url_for('get_file', fname='hello.txt', _external=True) }}</code></pre>
+  </main>
+</body>
+</html>

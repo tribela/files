@@ -1,0 +1,13 @@
+body {
+    color: #f314d2;
+    background: #0c0133;
+}
+
+body > main {
+    max-width: 800px;
+    margin: 0 auto;
+
+    border-radius: 3px;
+    border: 1px solid #decaff;
+    padding: 1em;
+}

@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from flask import Flask, request, send_from_directory, url_for
+from flask import Flask, render_template, request, send_from_directory, url_for
 
 app = Flask(__name__)
 
@@ -16,6 +16,11 @@ def setup():
         pass
 
     app.config['UPLOAD_DIR'] = uploaddir
+
+
+@app.get('/')
+def index():
+    return render_template('index.html')
 
 
 @app.post('/<fname>')
