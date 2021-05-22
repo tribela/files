@@ -17,4 +17,7 @@ USER user
 
 EXPOSE 5000
 
-CMD ["gunicorn", "app:app", "-b=:5000", "--worker-class=gthread"]
+CMD ["gunicorn", "app:app", \
+    "-b=:5000", \
+    "--worker-class=gthread", \
+    "--access-logfile=-"]
