@@ -2,12 +2,22 @@ import os
 import tempfile
 
 import markdown
-from flask import Flask, Response, render_template, request, send_from_directory, url_for
+from flask import Flask, Response
+from flask import render_template, request, send_from_directory, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
+
+FORBIDDEN_FILES = {
+    'robots.txt',
+}
+
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory(os.path.dirname(__file__), 'robots.txt')
 
 
 @app.before_first_request
@@ -56,6 +66,9 @@ def upload_file(fname):
     if 'file' not in request.files:
         return "File is required", 400
 
+    if fname in FORBIDDEN_FILES:
+        return '', 403
+
     file = request.files['file']
     file.save(os.path.join(app.config['UPLOAD_DIR'], fname))
 
@@ -71,6 +84,9 @@ def get_file(fname):
 
 @app.delete('/<fname>')
 def delete_file(fname):
+    if fname in FORBIDDEN_FILES:
+        return '', 403
+
     try:
         os.remove(os.path.join(app.config['UPLOAD_DIR'], fname))
     except FileNotFoundError:
