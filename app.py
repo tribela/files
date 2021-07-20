@@ -75,6 +75,11 @@ def upload_file(fname):
     return url_for(get_file.__name__, fname=fname, _external=True), 201
 
 
+@app.get('/.upload/<fname>')
+def upload(fname):
+    return render_template('upload.html', fname=fname)
+
+
 @app.get('/<fname>')
 def get_file(fname):
     return send_from_directory(
