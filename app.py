@@ -1,6 +1,7 @@
 import os
 import tempfile
 
+import magic
 import markdown
 from flask import Flask, Response
 from flask import render_template, request, send_from_directory, url_for
@@ -82,9 +83,13 @@ def upload(fname):
 
 @app.get('/<fname>')
 def get_file(fname):
+    fpath = os.path.join(app.config['UPLOAD_DIR'], fname)
+    mime = magic.Magic(mime=True, mime_encoding=True)
+    mimetype = mime.from_file(fpath)
     return send_from_directory(
         app.config['UPLOAD_DIR'], fname,
-        attachment_filename=fname)
+        attachment_filename=fname,
+        mimetype=mimetype)
 
 
 @app.delete('/<fname>')
