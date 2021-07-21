@@ -85,11 +85,14 @@ def upload(fname):
 def get_file(fname):
     fpath = os.path.join(app.config['UPLOAD_DIR'], fname)
     mime = magic.Magic(mime=True, mime_encoding=True)
-    mimetype = mime.from_file(fpath)
-    return send_from_directory(
-        app.config['UPLOAD_DIR'], fname,
-        attachment_filename=fname,
-        mimetype=mimetype)
+    try:
+        mimetype = mime.from_file(fpath)
+        return send_from_directory(
+            app.config['UPLOAD_DIR'], fname,
+            attachment_filename=fname,
+            mimetype=mimetype)
+    except FileNotFoundError:
+        return '', 404
 
 
 @app.delete('/<fname>')
