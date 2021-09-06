@@ -92,7 +92,7 @@ def get_file(fname):
             attachment_filename=fname,
             mimetype=mimetype)
     except FileNotFoundError:
-        return '', 403
+        return '', 405
 
 
 @app.delete('/<fname>')
