@@ -10,6 +10,7 @@ Flask = "^2.0.1"
 gunicorn = "^20.1.0"
 Markdown = "^3.3.4"
 python-magic = "^0.4.24"
+consolemd = "^0.5.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"

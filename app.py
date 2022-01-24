@@ -1,6 +1,8 @@
+import io
 import os
 import tempfile
 
+import consolemd
 import magic
 import markdown
 from flask import Flask, Response
@@ -59,9 +61,12 @@ def index():
         md = f.read().replace('__url__', url)
 
     if is_cli():
-        return Response(md, mimetype='text/markdown')
+        strio = io.StringIO()
+        renderer = consolemd.Renderer(style_name='solarized-dark')
+        renderer.render(md, output=strio)
+        return Response(strio.getvalue(), mimetype='text/markdown')
 
-    usage = markdown.markdown(md)
+    usage = markdown.markdown(md, extensions=['fenced_code', 'codehilite'])
 
     return render_template('index.html', usage=usage)
 
