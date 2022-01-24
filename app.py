@@ -94,12 +94,13 @@ def upload(fname):
 def get_file(fname):
     fpath = os.path.join(app.config['UPLOAD_DIR'], fname)
     ext = os.path.splitext(fname)[1]
-    if ext in MIME_OVERRIDES:
-        mimetype = MIME_OVERRIDES[ext]
-    else:
-        mime = magic.Magic(mime=True, mime_encoding=True)
-        mimetype = mime.from_file(fpath)
     try:
+        if ext in MIME_OVERRIDES:
+            mimetype = MIME_OVERRIDES[ext]
+        else:
+            mime = magic.Magic(mime=True, mime_encoding=True)
+            mimetype = mime.from_file(fpath)
+
         return send_from_directory(
             app.config['UPLOAD_DIR'], fname,
             attachment_filename=fname,
